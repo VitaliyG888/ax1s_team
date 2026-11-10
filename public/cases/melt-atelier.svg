@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d">
+  <title id="t">AX1S_TEAM, кейс Melt Atelier: тающая 3D-форма платья</title>
+  <desc id="d">Тёмное поле, песочно-золотая текучая силуэтная форма, алый блик</desc>
+  <rect width="1600" height="1000" fill="#05060a"/>
+  <radialGradient id="g" cx="62%" cy="44%" r="48%">
+    <stop offset="0%" stop-color="#b08d57" stop-opacity=".45"/>
+    <stop offset="55%" stop-color="#cbb79a" stop-opacity=".12"/>
+    <stop offset="100%" stop-color="#05060a" stop-opacity="0"/>
+  </radialGradient>
+  <rect width="1600" height="1000" fill="url(#g)"/>
+  <path d="M800 140 C940 160 1020 280 980 430 C960 520 1040 610 990 760 C940 900 820 940 800 980 C780 940 660 900 610 760 C560 610 640 520 620 430 C580 280 660 160 800 140 Z" fill="#cbb79a" opacity=".28"/>
+  <path d="M800 210 C890 230 940 320 910 430 C890 510 950 590 910 720 C870 840 810 870 800 900 C790 870 730 840 690 720 C650 590 710 510 690 430 C660 320 710 230 800 210 Z" fill="#b08d57" opacity=".55"/>
+  <ellipse cx="820" cy="360" rx="40" ry="70" fill="#c23b2e" opacity=".35"/>
+  <text x="80" y="920" fill="#8a7d6a" font-family="ui-monospace,monospace" font-size="22" letter-spacing="6">AX1S_TEAM / MELT ATELIER</text>
+</svg>

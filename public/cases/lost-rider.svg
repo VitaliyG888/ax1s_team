@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d">
+  <title id="t">AX1S_TEAM, кейс Lost Rider: фрагментированная 3D-марка</title>
+  <desc id="d">Осколки золотой марки на тёмном поле в момент сборки</desc>
+  <rect width="1600" height="1000" fill="#05060a"/>
+  <g fill="#b08d57">
+    <polygon points="800,180 860,280 740,280" opacity=".9"/>
+    <polygon points="920,320 1040,360 960,460" opacity=".55"/>
+    <polygon points="620,340 700,300 680,430" opacity=".7"/>
+    <polygon points="780,420 900,480 760,560" opacity=".8"/>
+    <polygon points="980,520 1080,600 900,620" opacity=".4"/>
+    <polygon points="640,560 760,620 620,700" opacity=".6"/>
+    <polygon points="800,640 860,760 720,740" opacity=".85"/>
+  </g>
+  <circle cx="800" cy="500" r="8" fill="#c23b2e"/>
+  <text x="80" y="920" fill="#8a7d6a" font-family="ui-monospace,monospace" font-size="22" letter-spacing="6">AX1S_TEAM / LOST RIDER</text>
+</svg>

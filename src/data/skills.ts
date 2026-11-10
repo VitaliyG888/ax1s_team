@@ -1,0 +1,17 @@
+export const skillCloud = [
+  "Next.js",
+  "React Three Fiber",
+  "Three.js",
+  "GLSL",
+  "GSAP",
+  "ScrollTrigger",
+  "Lenis",
+  "WebGL2",
+  "Draco",
+  "Meshopt",
+  "TypeScript",
+  "SSR/SSG",
+  "JSON-LD",
+  "shaders",
+  "OffscreenCanvas",
+] as const;

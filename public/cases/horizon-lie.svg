@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d">
+  <title id="t">AX1S_TEAM, кейс Horizon Lie: ложный горизонт</title>
+  <desc id="d">Архитектурный объём и смещённая линия горизонта</desc>
+  <rect width="1600" height="1000" fill="#05060a"/>
+  <linearGradient id="h" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#0b1020"/>
+    <stop offset="50%" stop-color="#b08d57" stop-opacity=".35"/>
+    <stop offset="100%" stop-color="#0b1020"/>
+  </linearGradient>
+  <rect x="0" y="430" width="1600" height="2" fill="url(#h)"/>
+  <rect x="0" y="620" width="1600" height="1" fill="#c23b2e" opacity=".4"/>
+  <polygon points="720,700 880,700 860,220 740,220" fill="#cbb79a" opacity=".22"/>
+  <polygon points="760,700 840,700 830,180 770,180" fill="#b08d57" opacity=".5"/>
+  <rect x="780" y="140" width="40" height="40" fill="#c23b2e" opacity=".7"/>
+  <text x="80" y="920" fill="#8a7d6a" font-family="ui-monospace,monospace" font-size="22" letter-spacing="6">AX1S_TEAM / HORIZON LIE</text>
+</svg>

@@ -1,0 +1,486 @@
+@import "tailwindcss";
+
+/*
+ * Цветовая система AX1S_TEAM.
+ * Базовая палитра (--c-*) — единственный источник правды. Сцена WebGL считывает эти
+ * переменные во время выполнения (src/lib/palette.ts → readPalette), поэтому изменение
+ * значений здесь автоматически меняет цвет и интерфейса, и 3D-блоба.
+ *
+ * Контрастность на фоне --background (#08071a), стандарт WCAG 2.1 AA:
+ *   mist 16.9 · haze 8.3 · violet 7.4 · teal 12.0 · coral 7.8 · gold 12.3 · crimson 6.8 · sand 10.1
+ *   indigo 3.7 → только для декора (свечение, глубина), никогда для мелкого текста.
+ */
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #3fe0c5;
+}
+
+:root {
+  /* Базовая палитра токенов */
+  --c-void: #08071a;
+  --c-night: #110f2a;
+  --c-dusk: #1a1740;
+  --c-mist: #efeaf8;
+  --c-haze: #a29cc6;
+  --c-line: #29244f;
+  --c-violet: #a98bff;
+  --c-teal: #3fe0c5;
+  --c-coral: #ff7a68;
+  --c-gold: #f4c55a;
+  --c-crimson: #ff5c93;
+  --c-indigo: #5b4bff;
+  --c-sand: #d2b48a;
+  --c-ink: #0a0820;
+
+  /* Семантические роли */
+  --background: var(--c-void);
+  --surface: var(--c-night);
+  --surface-raised: var(--c-dusk);
+  --foreground: var(--c-mist);
+  --muted: var(--c-haze);
+  --hairline-base: var(--c-line);
+  --hairline: color-mix(in oklab, var(--hairline-base) 82%, var(--accent));
+  --accent: var(--c-teal);
+  --accent-2: var(--c-violet);
+  --accent-3: var(--c-teal);
+  --accent-4: var(--c-indigo);
+  --accent-warm: var(--c-sand);
+  --accent-soft: color-mix(in srgb, var(--accent-2) 18%, transparent);
+  --on-accent: var(--c-ink);
+  --danger: #ff6b6b;
+  --success: #7ef0b5;
+
+  /* Мягкие подложки для постеров и фонов */
+  --wash-violet: color-mix(in srgb, var(--c-violet) 14%, transparent);
+  --wash-teal: color-mix(in srgb, var(--c-teal) 10%, transparent);
+  --wash-coral: color-mix(in srgb, var(--c-coral) 9%, transparent);
+  --wash-indigo: color-mix(in srgb, var(--c-indigo) 16%, transparent);
+
+  --space-section: clamp(6.5rem, 14vw, 13rem);
+  --container: 88rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-4: var(--accent-4);
+  --color-accent-warm: var(--accent-warm);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-violet: var(--c-violet);
+  --color-teal: var(--c-teal);
+  --color-coral: var(--c-coral);
+  --color-gold: var(--c-gold);
+  --color-crimson: var(--c-crimson);
+  --color-indigo: var(--c-indigo);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-plex);
+  --font-display: var(--font-cormorant);
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+  scroll-behavior: auto;
+  transition: --accent 1.2s ease;
+}
+
+/* Essence of the cloud (changes every 5 s pulse). Only the live accent moves;
+   primary action colour stays stable to keep hierarchy. */
+html[data-essence="0"] {
+  --accent: var(--c-teal);
+}
+
+html[data-essence="1"] {
+  --accent: var(--c-coral);
+}
+
+html[data-essence="2"] {
+  --accent: var(--c-gold);
+}
+
+html[data-essence="3"] {
+  --accent: var(--c-crimson);
+}
+
+/*
+ * Реактивная типографика: когда текст соприкасается с 3D-блобом в экранном пространстве,
+ * он плавно переключается в сияющий белый цвет с контрастной защитной окантовкой
+ * и спектральным свечением, обеспечивая максимальную читаемость.
+ */
+[data-blob-touch] {
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              text-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: color, text-shadow;
+}
+
+[data-blob-touch][data-touching="true"],
+[data-blob-touch][data-touching="true"] * {
+  color: #ffffff !important;
+  opacity: 1 !important;
+  text-shadow:
+    0 1px 3px rgba(8, 7, 26, 0.98),
+    0 0 1px rgba(8, 7, 26, 0.95),
+    0 0 16px rgba(63, 224, 197, 0.9),
+    0 0 32px rgba(169, 139, 255, 0.8) !important;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+html.is-scene-locked,
+html.is-scene-locked body {
+  overflow: hidden;
+  height: 100%;
+  touch-action: none;
+}
+
+::selection {
+  background: var(--accent-2);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 80;
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.section-pad {
+  padding-block: var(--space-section);
+}
+
+.has-cursor,
+.has-cursor * {
+  cursor: none;
+}
+
+.noise-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+.field-wash {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 40% 36% at 78% 28%, var(--wash-violet) 0%, transparent 64%),
+    radial-gradient(ellipse 32% 28% at 18% 72%, var(--wash-teal) 0%, transparent 60%),
+    radial-gradient(ellipse 22% 24% at 86% 76%, var(--wash-coral) 0%, transparent 58%);
+}
+
+/* Quiet section tint — depth from indigo, never a second focal point */
+.section-tint {
+  position: relative;
+  background:
+    radial-gradient(ellipse 60% 40% at 0% 0%, var(--wash-indigo) 0%, transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 55%, transparent), transparent 70%);
+}
+
+/*
+ * Cloud anchor shared by the CSS poster, the WebGL scene (World.tsx) and the hitbox:
+ * landscape → right of the headline, portrait → above it.
+ */
+:root {
+  --cloud-x: 70%;
+  --cloud-y: 44%;
+  --cloud-r: min(25vh, 16vw);
+}
+
+@media (orientation: portrait) {
+  :root {
+    --cloud-x: 50%;
+    --cloud-y: 21%;
+    --cloud-r: min(15vh, 34vw);
+  }
+}
+
+/* Static fallback with the same colour character as the shader cloud.
+   Shown before WebGL paints, on weak devices, and when WebGL is unavailable. */
+.scene-poster {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transition: opacity 0.9s ease;
+  background:
+    radial-gradient(
+      circle at var(--cloud-x) var(--cloud-y),
+      var(--wash-indigo) 0%,
+      transparent calc(var(--cloud-r) * 2.6)
+    ),
+    radial-gradient(circle at 50% 48%, var(--surface) 0%, var(--background) 74%);
+}
+
+.dream-poster-cloud {
+  position: absolute;
+  left: var(--cloud-x);
+  top: var(--cloud-y);
+  width: calc(var(--cloud-r) * 2.2);
+  height: calc(var(--cloud-r) * 2.2);
+  translate: -50% -50%;
+  border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.45) 0%, transparent 26%),
+    radial-gradient(circle at 38% 36%, color-mix(in srgb, var(--c-teal) 85%, transparent) 0%, transparent 45%),
+    radial-gradient(circle at 64% 32%, color-mix(in srgb, var(--c-violet) 90%, transparent) 0%, transparent 48%),
+    radial-gradient(circle at 62% 68%, color-mix(in srgb, var(--c-coral) 75%, transparent) 0%, transparent 46%),
+    radial-gradient(circle at 28% 70%, color-mix(in srgb, var(--c-crimson) 65%, transparent) 0%, transparent 42%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--c-indigo) 85%, transparent) 0%, transparent 75%);
+  box-shadow:
+    inset -8px -12px 28px rgba(91, 75, 255, 0.35),
+    inset 10px 14px 24px rgba(255, 255, 255, 0.28),
+    0 12px 48px rgba(91, 75, 255, 0.24);
+  filter: blur(calc(var(--cloud-r) * 0.04));
+  opacity: 0.88;
+  animation: dream-breathe 5s ease-in-out infinite, blob-morph 9s ease-in-out infinite alternate;
+  will-change: transform, border-radius;
+}
+
+/* Same 5 s rhythm as the GSAP pulse: expand → compress → return */
+@keyframes dream-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  34% {
+    transform: scale(1.08) rotate(2deg);
+  }
+  68% {
+    transform: scale(0.95) rotate(-1deg);
+  }
+}
+
+@keyframes blob-morph {
+  0% {
+    border-radius: 48% 52% 56% 44% / 54% 46% 54% 46%;
+  }
+  50% {
+    border-radius: 56% 44% 42% 58% / 46% 58% 42% 54%;
+  }
+  100% {
+    border-radius: 42% 58% 54% 46% / 58% 44% 56% 44%;
+  }
+}
+
+.hero-sky {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      118deg,
+      transparent 26%,
+      color-mix(in srgb, var(--c-indigo) 7%, transparent) 45%,
+      color-mix(in srgb, var(--c-violet) 6%, transparent) 51%,
+      color-mix(in srgb, var(--c-teal) 4%, transparent) 58%,
+      transparent 74%
+    ),
+    radial-gradient(
+      ellipse 20% 12% at var(--cloud-x) var(--cloud-y),
+      color-mix(in srgb, var(--c-mist) 5%, transparent) 0%,
+      transparent 72%
+    );
+}
+
+html.is-scene-ready .hero-poster,
+.scene-poster.is-ready {
+  opacity: 0;
+}
+
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+.scroll-hint {
+  animation: float-y 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+
+.live-dot {
+  animation: pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes cta-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-2) 45%, transparent);
+  }
+  55% {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent-2) 0%, transparent);
+  }
+}
+
+.cta-pulse {
+  animation: cta-pulse 5s ease-out infinite;
+}
+
+[data-hero],
+[data-reveal] {
+  opacity: 0;
+}
+
+.project-shot {
+  clip-path: inset(0 18% 0 0);
+  transition:
+    clip-path 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.8s ease;
+  filter: saturate(0.9);
+}
+
+.group:hover .project-shot {
+  clip-path: inset(0);
+  transform: scale(1.03);
+  filter: saturate(1.1);
+}
+
+/* Card: surface + hairline at rest, violet edge and indigo depth on hover */
+.dream-card {
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  transition:
+    border-color 0.5s ease,
+    box-shadow 0.6s ease;
+}
+
+.dream-card:hover,
+.dream-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent-2) 55%, var(--hairline));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent-2) 14%, transparent),
+    0 24px 60px -28px color-mix(in srgb, var(--c-indigo) 70%, transparent);
+}
+
+.melt-rule {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent-2), var(--accent) 55%, transparent 85%);
+}
+
+.logo-morph {
+  display: inline-block;
+  font-variation-settings: "SOFT" 50, "WONK" 0.4;
+  transition: letter-spacing 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-morph:hover {
+  letter-spacing: 0.18em;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+.glass-panel {
+  background: color-mix(in srgb, var(--background) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--hairline) 80%, transparent);
+  backdrop-filter: blur(10px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  * {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .marquee-track,
+  .live-dot,
+  .scroll-hint,
+  .cta-pulse,
+  .dream-poster-cloud {
+    animation: none;
+  }
+
+  .project-shot {
+    clip-path: none;
+  }
+
+  [data-hero],
+  [data-reveal] {
+    opacity: 1;
+  }
+
+  html.is-scene-locked,
+  html.is-scene-locked body {
+    overflow: auto;
+  }
+}
